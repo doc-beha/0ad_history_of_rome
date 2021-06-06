@@ -34,7 +34,29 @@ Trigger.prototype.OwnershipChangedAction = function(data)
 		cmpPlayer.AddResource("metal",1000);
 	}
 
-}
+};
+
+
+
+Trigger.prototype.OnPlayerWon = function(data)
+{
+	//warn("The OnPlayerWon event happened with the following data:");
+	//warn(uneval(data));
+	if (data.playerId == 1)
+	{
+		warn("WON");
+		var cmpGUIInterface = Engine.QueryInterface(SYSTEM_ENTITY, IID_GuiInterface);
+		cmpGUIInterface.PushNotification({
+			"players": [1],
+			"message": "Alle gegnerischen Staemme wurden von Romulus unterworfen. Romulus wurde der erste Koenig Roms. Der roemische Geschichtsschreiber Titus Livius nennt Numa Pompilius als Nachfolger von Romulus. Um das Jahr 475 v. Chr. wurde Rom eine Republik.",
+			translateMessage: false
+		});
+
+	}
+
+};
+
+
 
 {
 var cmpTrigger = Engine.QueryInterface(SYSTEM_ENTITY, IID_Trigger);
@@ -44,5 +66,6 @@ cmpTrigger.DoAfterDelay(10, "IntroductionMessage", {});
 
 let data = { "enabled": true };
 cmpTrigger.RegisterTrigger("OnOwnershipChanged", "OwnershipChangedAction", data);
+cmpTrigger.RegisterTrigger("OnPlayerWon", "OnPlayerWon", data);
 
 };
